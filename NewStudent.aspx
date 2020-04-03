@@ -1,6 +1,62 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="NewStudent.aspx.cs" Inherits="NewStudent" %>
+﻿<%@ Page Language="C#"  %>
+<%@ import Namespace="System.Data.SqlClient" %>
 
 <!DOCTYPE html>
+<script runat="server">
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        
+        //creat object connection 
+        SqlConnection conn = new SqlConnection();
+        conn.ConnectionString = "Data Source=(LocalDB)\\v11.0;AttachDbFilename=|DataDirectory|Database.mdf;Integrated Security=True";
+        
+        //creat sql INSERT Statement
+        String strInsert = "INSERT INTO [dbo].[Table]" 
+            +"VALUES'(" +txtFname.Text+"', '"
+            +txtId.Text+"', '"
+            +txtGender.SelectedValue+ "', '"
+            +txtCalender.SelectedDate+"', '"
+            +txtEmail.Text+"', '"
+            +txtPhone.Text+"', '"
+            +txtAddress.Text+"', '"
+            +txtPassword.Text+ ")'"
+            +txtNationality.Text + "', '"
+            + txtFaculity + "', '"
+            + txtBuss + "', '"
+            + txtLname + "', '";
+        
+        //creat Sql coomand 
+
+        SqlCommand cmdInser = new SqlCommand(strInsert,conn);
+
+        try
+        {
+            conn.Open();
+            cmdInser.ExecuteNonQuery();
+            conn.Close();
+            lbl.Text = "Welcome " + txtFname.Text + " Your Account Has Been Successfully Created!!";
+        }
+
+
+        catch (SqlException err)
+        {
+            if (err.Number == 2627)
+                lbl.Text = "Student ID already exists, Please Choose Another!!";
+            else
+                lbl.Text = "Sorry, Database Error, You may Try later!!";
+        }
+
+        catch
+        {
+            lbl.Text = "Sorry, System Error, You may Try later!!";
+        }
+        
+        
+
+    }
+</script>
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -11,13 +67,15 @@
             height: 543px;
         }
         .auto-style3 {
-            width: 339px;
         }
         .auto-style4 {
             width: 189px;
         }
         .auto-style8 {
             height: 23px;
+        }
+        .auto-style9 {
+            width: 221px;
         }
     </style>
 </head>
@@ -30,96 +88,117 @@
                 </td>
             </tr>
             <tr>
-                <td class="auto-style3">
+                <td class="auto-style9">
                     <asp:Label ID="Label2" runat="server" Text="First Name:"></asp:Label>
                 </td>
                 <td class="auto-style4">
-                    <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="txtFname" runat="server"></asp:TextBox>
                 </td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td class="auto-style3">
+                <td class="auto-style9">
                     <asp:Label ID="Label3" runat="server" Text="Last Name:"></asp:Label>
                 </td>
                 <td class="auto-style4">
-                    <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="txtLname" runat="server"></asp:TextBox>
                 </td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td class="auto-style3">
+                <td class="auto-style9">
+                    Student ID</td>
+                <td class="auto-style4">
+                    <asp:TextBox ID="txtId" runat="server"></asp:TextBox>
+                </td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="auto-style9">
                     <asp:Label ID="Label4" runat="server" Text="Gender:"></asp:Label>
                 </td>
                 <td class="auto-style4">
-                    <asp:RadioButton ID="RadioButton1" runat="server" Text="M" />
-                    <asp:RadioButton ID="RadioButton2" runat="server" Text="F" />
+                    <asp:RadioButtonList ID="txtGender" runat="server" Width="98px">
+                        <asp:ListItem Value="M">Male</asp:ListItem>
+                        <asp:ListItem Value="F">Female</asp:ListItem>
+                    </asp:RadioButtonList>
                 </td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td class="auto-style3">
+                <td class="auto-style9">
+                    &nbsp;</td>
+                <td class="auto-style4">
+                    &nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="auto-style9">
                     <asp:Label ID="Label5" runat="server" Text="Birth Date"></asp:Label>
                 </td>
                 <td class="auto-style4">
-                    <asp:Calendar ID="Calendar1" runat="server" Height="157px" Width="147px"></asp:Calendar>
+                    <asp:Calendar ID="txtCalender" runat="server" Height="157px" Width="147px"></asp:Calendar>
                 </td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td class="auto-style3">
+                <td class="auto-style9">
                     <asp:Label ID="Label6" runat="server" Text="Email"></asp:Label>
                 </td>
                 <td class="auto-style4">
-                    <asp:TextBox ID="TextBox3" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="txtEmail" runat="server"></asp:TextBox>
                 </td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td class="auto-style3">
+                <td class="auto-style9">
                     <asp:Label ID="Label7" runat="server" Text="Phone number"></asp:Label>
                 </td>
                 <td class="auto-style4">
-                    <asp:TextBox ID="TextBox4" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="txtPhone" runat="server"></asp:TextBox>
                 </td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td class="auto-style3">
-                    <asp:Label ID="Label8" runat="server" Text="Address:"></asp:Label>
+                <td class="auto-style9">
+                    <asp:Label ID="txtBuss" runat="server" Text="Address:"></asp:Label>
                 </td>
                 <td class="auto-style4">
-                    <asp:TextBox ID="TextBox5" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="txtAddress" runat="server"></asp:TextBox>
                 </td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td class="auto-style3">
+                <td class="auto-style9">
                     <asp:Label ID="Label9" runat="server" Text="Password:"></asp:Label>
                 </td>
                 <td class="auto-style4">
-                    <asp:TextBox ID="TextBox6" runat="server" TextMode="Password"></asp:TextBox>
+                    <asp:TextBox ID="txtPassword" runat="server" TextMode="Password"></asp:TextBox>
                 </td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td class="auto-style3">
+                <td class="auto-style9">
                     <asp:Label ID="Label10" runat="server" Text="Confirm Password"></asp:Label>
                 </td>
                 <td class="auto-style4">
@@ -130,23 +209,25 @@
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td class="auto-style3">
+                <td class="auto-style9">
                     <asp:Label ID="Label11" runat="server" Text="Nationality:"></asp:Label>
                 </td>
                 <td class="auto-style4">
-                    <asp:DropDownList ID="DropDownList1" runat="server">
-                    </asp:DropDownList>
+                    <asp:TextBox ID="txtNationality" runat="server"></asp:TextBox>
                 </td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td class="auto-style3">
+                <td class="auto-style9">
                     <asp:Label ID="Label12" runat="server" Text="Faculty:"></asp:Label>
                 </td>
                 <td class="auto-style4">
-                    <asp:DropDownList ID="DropDownList2" runat="server">
+                    <asp:DropDownList ID="txtFaculity" runat="server">
+                        <asp:ListItem Value="C">CS</asp:ListItem>
+                        <asp:ListItem Value="I">IS</asp:ListItem>
+                        <asp:ListItem Value="I">IT</asp:ListItem>
                     </asp:DropDownList>
                 </td>
                 <td>&nbsp;</td>
@@ -154,31 +235,25 @@
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td class="auto-style3">
+                <td class="auto-style9">
                     <asp:Label ID="Label13" runat="server" Text="Bus:"></asp:Label>
                 </td>
                 <td class="auto-style4">
-                    <asp:CheckBox ID="CheckBox1" runat="server" Text="Yes" />
+                    <asp:TextBox ID="TextBox8" runat="server"></asp:TextBox>
                 </td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td class="auto-style3">
-                    <asp:Label ID="Label14" runat="server" Text="Image:"></asp:Label>
+                <td class="auto-style3" colspan="5">
+                    <asp:Label ID="lbl" runat="server" Text="Label"></asp:Label>
                 </td>
-                <td class="auto-style4">
-                    <asp:FileUpload ID="FileUpload1" runat="server" />
-                </td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
             </tr>
         </table>
     <div>
     
-        <asp:Button ID="Button1" runat="server" Text="Submit" />
+        <asp:Button ID="Button1" runat="server" Text="Submit" OnClick="Button1_Click" />
     
     </div>
     </form>
